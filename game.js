@@ -35,10 +35,8 @@ function new_game()
     number_of_playes = 0;
     win = false;
     started = true;
-    $("#current_player").text(current_player_char);
-    $("#current_player").css("color" , current_player_char === "X" ? "red" : "blue");
-    $(".cell").text(" ");
-    $(".cell").css("background-color" , "white");
+    $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
+    $(".cell").text(" ").css("background-color" , "white").removeClass("no-hover");
     $("#winnerplaceholder").html("Tic Tac Toe");
     wincase = [];
     firstTurn = false;
@@ -61,9 +59,7 @@ function playerChoice(player ,element)
         {
             current_player_char = "O";
         }
-        $("#current_player").text(current_player_char);
-        $("#current_player").css("color" , current_player_char === "X" ? "red" : "blue");
-        
+        $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
 }
 
 function checkWin(player)
@@ -74,6 +70,7 @@ function checkWin(player)
         {
             wincase = winCases[i];
             started = false;
+            $(".cell").addClass("no-hover");
             return true;
         }
     }
@@ -82,7 +79,8 @@ function checkWin(player)
         draws += 1;
         $("#draws").text(draws);
         $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
-        $(".cell").css("background-color" , "#ffcd71");
+        $(".cell").css("background-color" , "#ffcd71").addClass("no-hover");
+        return false;
     }
     return false;
 }   
