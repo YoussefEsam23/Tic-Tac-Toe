@@ -42,7 +42,7 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background-color 0.5s;
 }
 .btn{
     padding: 10px 20px;
@@ -53,7 +53,7 @@ body{
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s , background-color 0.3s;
 }
 .btn:hover{
     transform: scale(1.03);
@@ -62,7 +62,7 @@ body{
 .cell:not(.no-hover):hover{
     cursor: pointer;
     transform: scale(1.1);
-    transition: transform 0.3s;
+    transition: transform 0.3s, background-color 0.5s;
 }
 .text{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,4 +73,13 @@ body{
         width: 90%;
     }
     
+}
+.wincell , .drawcell{
+    transition: background-color 0.5s;
+}
+.wincell{
+    background-color: #4CAF50 !important;
+}
+.drawcell{
+    background-color: #ffcd71 !important;
 }

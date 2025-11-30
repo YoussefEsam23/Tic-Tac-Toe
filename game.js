@@ -36,7 +36,7 @@ function new_game()
     win = false;
     started = true;
     $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
-    $(".cell").text(" ").css("background-color" , "white").removeClass("no-hover");
+    $(".cell").text(" ").removeClass("no-hover").removeClass("wincell").removeClass("drawcell");
     $("#winnerplaceholder").html("Tic Tac Toe");
     wincase = [];
     firstTurn = false;
@@ -79,7 +79,7 @@ function checkWin(player)
         draws += 1;
         $("#draws").text(draws);
         $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
-        $(".cell").css("background-color" , "#ffcd71").addClass("no-hover");
+        $(".cell").addClass("no-hover").addClass("drawcell");
         return false;
     }
     return false;
@@ -96,7 +96,7 @@ $(".cell").click(function() {
         }
         if(win && current_player === 2){
             wincase.forEach(element => {
-            $("#" + element).css("background-color" , "#4CAF50");});
+            $("#" + element).addClass("wincell");});
             player1WINS += 1;
             $("#x_wins").text(player1WINS);
             $("#winnerplaceholder").html("Player <span style='color: red;'>X</span> Wins!");
@@ -109,7 +109,7 @@ $(".cell").click(function() {
         }
         if(win && current_player === 1){
             wincase.forEach(element => {
-            $("#" + element).css("background-color" , "#4CAF50");});
+            $("#" + element).addClass("wincell");});
             player2WINS += 1;
             $("#o_wins").text(player2WINS);
             $("#winnerplaceholder").html("Player <span style='color: blue;'>O</span> Wins!");
