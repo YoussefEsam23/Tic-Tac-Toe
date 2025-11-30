@@ -7,6 +7,7 @@ var winCases = [[0,3,6] , [1,4,7] , [2,5,8] ,
 
 function startOver()
 {
+    TurnNumber = 1;
     new_game();
     player1WINS = 0;
     player2WINS = 0;
@@ -21,39 +22,27 @@ function new_game()
 {
     player1 = [];
     player2 = [];
-    current_player = 1;
+    if(TurnNumber % 2 !== 0){
+        current_player = 1;
+        current_player_char = "X";
+        TurnNumber += 1;
+    }
+    else{
+        current_player = 2;
+        current_player_char = "O";
+        TurnNumber += 1;
+    }
     number_of_playes = 0;
     win = false;
     started = true;
-    current_player_char = "X";
     $("#current_player").text(current_player_char);
-    $("#current_player").css("color" , "red");
+    $("#current_player").css("color" , current_player_char === "X" ? "red" : "blue");
     $(".cell").text(" ");
     $(".cell").css("background-color" , "white");
     $("#winnerplaceholder").html("Tic Tac Toe");
     wincase = [];
+    firstTurn = false;
 }
-
-function checkWin(player)
-{
-    for(var i=0; i < winCases.length; i++){
-
-        if(player.includes(winCases[i][0]) && player.includes(winCases[i][1]) && player.includes(winCases[i][2]))
-        {
-            wincase = winCases[i];
-            started = false;
-            return true;
-        }
-    }
-    if(number_of_playes === 9){
-        started = false;
-        draws += 1;
-        $("#draws").text(draws);
-        $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
-        $(".cell").css("background-color" , "#ffcd71");
-    }
-    return false;
-}   
 
 function playerChoice(player ,element)
 {
@@ -76,6 +65,27 @@ function playerChoice(player ,element)
         $("#current_player").css("color" , current_player_char === "X" ? "red" : "blue");
         
 }
+
+function checkWin(player)
+{
+    for(var i=0; i < winCases.length; i++){
+
+        if(player.includes(winCases[i][0]) && player.includes(winCases[i][1]) && player.includes(winCases[i][2]))
+        {
+            wincase = winCases[i];
+            started = false;
+            return true;
+        }
+    }
+    if(number_of_playes === 9){
+        started = false;
+        draws += 1;
+        $("#draws").text(draws);
+        $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
+        $(".cell").css("background-color" , "#ffcd71");
+    }
+    return false;
+}   
 
 startOver(); 
 
