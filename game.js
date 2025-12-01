@@ -123,9 +123,15 @@ $(".cell").click(function() {
 });
 
 restartButton.addEventListener("click", function() {
-    startOver();
+    if(!started)
+    {
+        startOver();
+    }
 }); 
 
 new_gameButton.addEventListener("click", function() {
-    new_game();
+    if(!started)
+    {
+        new_game();
+    }
 });
