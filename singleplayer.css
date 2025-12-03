@@ -1,0 +1,157 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    flex-wrap: wrap;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 25%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+#darkmodecontainer{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+.gameBoard
+{   display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    /* gap: 3px; */
+    margin: 2rem auto;
+    max-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+.cell{
+    background-color: white;
+    border : 2px solid black;
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    transition: transform 0.3s, background-color 0.5s;
+}
+.btn{
+    padding: 10px 20px;
+    margin: 10px;
+    width: 70%;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.5s , background-color 0.5s;
+}
+.btnNoactive{
+    background-color: grey;
+    cursor: not-allowed;
+}
+.btn:not(.no-hover):hover{
+    transform: scale(1.03);
+    
+}
+.cell:not(.no-hover):hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform 0.3s, background-color 0.5s;
+}
+.text{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 10px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+@media (max-width: 480px) {
+    .container{
+        width: 90%;
+    }
+    
+}
+.wincell , .drawcell{
+    transition: background-color 0.5s;
+}
+.wincell{
+    background-color: #4CAF50 !important;
+}
+.drawcell{
+    background-color: #ffcd71 !important;
+}

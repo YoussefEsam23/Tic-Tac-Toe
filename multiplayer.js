@@ -1,3 +1,13 @@
+var mode = "";
+$("#singleplayer").click(function() {
+    mode = "singleplayer";
+    window.location.href = "singleplayer.html";
+});
+$("#multiplayer").click(function() {
+    mode = "multiplayer";
+    window.location.href = "multiplayer.html";
+});
+
 var restartButton = document.getElementById("restart");
 var new_gameButton = document.getElementById("new_game");
 var choice;
@@ -22,16 +32,18 @@ function new_game()
 {
     player1 = [];
     player2 = [];
-    if(TurnNumber % 2 !== 0){
-        current_player = 1;
-        current_player_char = "X";
-        TurnNumber += 1;
-    }
-    else{
-        current_player = 2;
-        current_player_char = "O";
-        TurnNumber += 1;
-    }
+    if(TurnNumber % 2 !== 0)
+        {
+            current_player = 1;
+            current_player_char = "X";
+            TurnNumber += 1;
+        }
+    else
+        {
+            current_player = 2;
+            current_player_char = "O";
+            TurnNumber += 1;
+        }
     number_of_playes = 0;
     win = false;
     started = true;
@@ -45,15 +57,16 @@ function new_game()
 
 function playerChoice(player ,element)
 {
-    if($(element).text() !== " "){
+    if($(element).text() !== " ")
+        {
             return;
         }
-        player.push(parseInt($(element).attr("id")));
-        $(element).text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
-        current_player = (current_player % 2) + 1;
-        number_of_playes += 1;
-        current_player_char = chars[current_player - 1];
-        $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
+    player.push(parseInt($(element).attr("id")));
+    $(element).text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
+    current_player = (current_player % 2) + 1;
+    number_of_playes += 1;
+    current_player_char = chars[current_player - 1];
+    $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
 }
 
 function checkWin(player)
@@ -70,15 +83,16 @@ function checkWin(player)
                 return true;
             }
         }
-    if(number_of_playes === 9){
-        started = false;
-        draws += 1;
-        $("#draws").text(draws);
-        $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
-        $(".cell").addClass("no-hover").addClass("drawcell");
-        $(".btn").removeClass("no-hover").removeClass("btnNoactive");
-        return false;
-    }
+    if(number_of_playes === 9)
+        {
+            started = false;
+            draws += 1;
+            $("#draws").text(draws);
+            $("#winnerplaceholder").html("It's a <span style='color: #ffcd71;'>Draw</span>!");
+            $(".cell").addClass("no-hover").addClass("drawcell");
+            $(".btn").removeClass("no-hover").removeClass("btnNoactive");
+            return false;
+        }
     return false;
 }   
 

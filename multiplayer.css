@@ -79,7 +79,6 @@ body{
     .container{
         width: 90%;
     }
-    
 }
 .wincell , .drawcell{
     transition: background-color 0.5s;

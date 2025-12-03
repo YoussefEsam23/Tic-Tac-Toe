@@ -2,31 +2,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container">
-        <h1 style="font-size: 2rem" id="winnerplaceholder" class="text">Tic Tac Toe</h1>
-        <h2 class="text">current player : <span id="current_player"></span></h2>
-        <h3 class="text"><span style="color: red;">X</span> wins: <span id="x_wins"></span> </h3>
-        <h3 class="text"><span style="color: blue;">O</span> wins: <span id="o_wins"></span> </h3>
-        <h3 class="text">Draws: <span id="draws"></span> </h3>
-        <div class="gameBoard">
-            <div class="cell" id="0"></div>
-            <div class="cell" id="1"></div>
-            <div class="cell" id="2"></div>
-            <div class="cell" id="3"></div>
-            <div class="cell" id="4"></div>
-            <div class="cell" id="5"></div>
-            <div class="cell" id="6"></div>
-            <div class="cell" id="7"></div>
-            <div class="cell" id="8"></div>
-        </div>
-        <button  class="btn" id="new_game">New Game</button>
-        <button  class="btn" id="restart">Restart Game</button>
+        <h2>Welcome to Tic Tac Toe</h2>
+        <button class="btn" id="singleplayer">singleplayer</button>
+        <button class="btn" id="multiplayer">multiplayer</button>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="game.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="multiplayer.js"></script>  
 </body>
 </html>
