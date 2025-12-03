@@ -45,7 +45,6 @@ function startOver()
 
 function new_game()
 {
-    timeout = 500;
     player1 = [];
     computer = [];
     playerChoiceCell = 0;
@@ -64,7 +63,6 @@ function new_game()
         }
     else
         {
-        timeout = 0;
         current_player = 2;
         current_player_char = "O";
         TurnNumber += 1;
@@ -160,65 +158,62 @@ function computerChoiceEasy()
 function computerChoiceNormal()
 {
     if(current_player === 2 && freeCells.length === 9)
+    {
+        computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
+        computerDisplay();
+        return;
+    }
+    computerNearWin = false;
+    playerNearWin = false;
+    for (let i = 0; i < nearWinCases.length; i++)
+    {
+        for (let j = 0; j < nearWinCases[i].length; j++)
         {
-            timeout = 500;
-            computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
-            computerDisplay();
-            return;
-        }
-    for( var i = 0 ; i < nearWinCases.length ; i++)
-        {
-            for( var j = 0 ; j < nearWinCases[i].length ; j++)
+            let missingCell = winCases[i][j];
+            let pair = nearWinCases[i][j];
+            if (computer.includes(pair[0]) && computer.includes(pair[1]))
+            {
+                let playCell = document.getElementById(missingCell);
+                if (playCell.textContent === " ")
                 {
-                    playWincell = document.getElementById(winCases[i][j]);
-                    if(computer.includes(nearWinCases[i][j][0]) && computer.includes(nearWinCases[i][j][1]))
-                        {
-                            if(playWincell.textContent === " ")
-                                {
-                                    computerNearWin = true ;
-                                    computerChoiceCell = winCases[i][j];
-                                    break;
-
-                                }
-                            
-                        }
-                }
-            if(computerNearWin)
-                {
+                    computerNearWin = true;
+                    computerChoiceCell = missingCell;
                     break;
                 }
+            }
         }
-         
-    if(!computerNearWin)
+        if (computerNearWin) break;
+    }
+    if (!computerNearWin)
+    {
+        for (let i = 0; i < nearWinCases.length; i++)
         {
-            for( var i = 0 ; i < nearWinCases.length ; i++)
+            for (let j = 0; j < nearWinCases[i].length; j++)
+            {
+                let missingCell = winCases[i][j];
+                let pair = nearWinCases[i][j];
+                if (player1.includes(pair[0]) && player1.includes(pair[1]))
                 {
-                    for( var j = 0 ; j < nearWinCases[i].length ; j++)
-                        {
-                            playWincell = document.getElementById(winCases[i][j]);
-                            if(player1.includes(nearWinCases[i][j][0]) && player1.includes(nearWinCases[i][j][1]))
-                                {
-                                    if(playWincell.textContent === " ")
-                                        {
-                                            playerNearWin = true ;
-                                            computerChoiceCell = winCases[i][j];
-                                            break;
-                                        }
-                                }
-                        }
-                    if(playerNearWin)
-                        {
-                            break;
-                        }
+                    let playCell = document.getElementById(missingCell);
+                    if (playCell.textContent === " ")
+                    {
+                        playerNearWin = true;
+                        computerChoiceCell = missingCell;
+                        break;
+                    }
                 }
+            }
+            if (playerNearWin) break;
+        }
+    }
+    if (!computerNearWin && !playerNearWin)
+    {
+        computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
+    }
 
-        }
-    if(!playerNearWin && !computerNearWin)
-        {
-            computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
-        }
     computerDisplay();
 }
+
 
 function computerTurn()
 {
@@ -240,7 +235,7 @@ function computerTurn()
                                 $("#winnerplaceholder").html("Computer <span style='color: blue;'>O</span> Wins!");
                             }
                     
-                    }}, timeout);
+                    }}, 500);
 }
 
 function checkWin(player)
