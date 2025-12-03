@@ -56,17 +56,19 @@ function new_game()
     playerNearWin = false;
     computerNearWin = false;
     freeCells = [0,1,2,3,4,5,6,7,8];
-    if(TurnNumber % 2 !== 0){
+    if(TurnNumber % 2 !== 0)
+        {
         current_player = 1;
         current_player_char = "X";
         TurnNumber += 1;
-    }
-    else{
+        }
+    else
+        {
         timeout = 0;
         current_player = 2;
         current_player_char = "O";
         TurnNumber += 1;
-    }
+        }
     number_of_playes = 0;
     win = false;
     started = true;
@@ -76,15 +78,16 @@ function new_game()
     $(".btn").addClass("no-hover").addClass("btnNoactive");
     wincase = [];
     if(current_player === 2)
-    {
-            computerTurn();
-    
-    }
+        {
+                computerTurn();
+        
+        }
 }
 
 function playerChoice(player ,element)
 {
-    if($(element).text() !== " "){
+    if($(element).text() !== " ")
+        {
             return;
         }
         playerChoiceCell = parseInt($(element).attr("id"));
@@ -157,59 +160,63 @@ function computerChoiceEasy()
 function computerChoiceNormal()
 {
     if(current_player === 2 && freeCells.length === 9)
-    {
-        timeout = 500;
-        computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
-        computerDisplay();
-        return;
-    }
+        {
+            timeout = 500;
+            computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
+            computerDisplay();
+            return;
+        }
     for( var i = 0 ; i < nearWinCases.length ; i++)
-    {
-        for( var j = 0 ; j < nearWinCases[i].length ; j++)
-        {
-            playWincell = document.getElementById(winCases[i][j]);
-            if(computer.includes(nearWinCases[i][j][0]) && computer.includes(nearWinCases[i][j][1]))
-            {
-                if(playWincell.textContent === " ")
-                {
-                    computerNearWin = true ;
-                    console.log("computer near win");
-                    computerChoiceCell = winCases[i][j];
-                    break;
-
-                }
-                
-            }
-        }
-        if(computerNearWin)
-        {
-            break;
-        }
-        else
         {
             for( var j = 0 ; j < nearWinCases[i].length ; j++)
                 {
                     playWincell = document.getElementById(winCases[i][j]);
-                    if(player1.includes(nearWinCases[i][j][0]) && player1.includes(nearWinCases[i][j][1]) && playWincell.textContent === " ")
-                    {
-                        playerNearWin = true ;
-                        console.log("player near win")
-                        computerChoiceCell = winCases[i][j];
-                        break;
-                    }
+                    if(computer.includes(nearWinCases[i][j][0]) && computer.includes(nearWinCases[i][j][1]))
+                        {
+                            if(playWincell.textContent === " ")
+                                {
+                                    computerNearWin = true ;
+                                    computerChoiceCell = winCases[i][j];
+                                    break;
+
+                                }
+                            
+                        }
+                }
+            if(computerNearWin)
+                {
+                    break;
                 }
         }
-        
-        if(playerNearWin)
-            {
-                playerNearWin = false;
-                break;
-            }
-        else
-            {
-                computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
-            }
-    }
+         
+    if(!computerNearWin)
+        {
+            for( var i = 0 ; i < nearWinCases.length ; i++)
+                {
+                    for( var j = 0 ; j < nearWinCases[i].length ; j++)
+                        {
+                            playWincell = document.getElementById(winCases[i][j]);
+                            if(player1.includes(nearWinCases[i][j][0]) && player1.includes(nearWinCases[i][j][1]))
+                                {
+                                    if(playWincell.textContent === " ")
+                                        {
+                                            playerNearWin = true ;
+                                            computerChoiceCell = winCases[i][j];
+                                            break;
+                                        }
+                                }
+                        }
+                    if(playerNearWin)
+                        {
+                            break;
+                        }
+                }
+
+        }
+    if(!playerNearWin && !computerNearWin)
+        {
+            computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
+        }
     computerDisplay();
 }
 
@@ -266,29 +273,30 @@ startOver();
 
 $(".cell").click(function() {
     if(started)
-    {
-        playerTurn(this);
-        if(number_of_playes === 9)
         {
+            playerTurn(this);
+            if(number_of_playes === 9)
+                {
 
-        }
-        else{
+                }
+            else
+                {
 
-            computerTurn();
+                computerTurn();
+                }
         }
-    }
 });
 
 restartButton.addEventListener("click", function() {
     if(!started)
-    {
-        startOver();
-    }
+        {
+            startOver();
+        }
 });
 
 new_gameButton.addEventListener("click", function() {
     if(!started)
-    {
-        new_game();
-    }
+        {
+            new_game();
+        }
 });
