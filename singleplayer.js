@@ -111,8 +111,8 @@ function playerTurn(element)
                 {
                     wincase.forEach(element => {
                     $("#" + element).addClass("wincell");});
-                    computerWINS += 1;
-                    $("#x_wins").text(computerWINS);
+                    player1WINS += 1;
+                    $("#x_wins").text(player1WINS);
                     $("#winnerplaceholder").html("Computer <span style='color: blue;'>O</span> Wins!");
                 }
         }
