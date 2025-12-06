@@ -1,6 +1,11 @@
 var restartButton = document.getElementById("restart");
 var new_gameButton = document.getElementById("new_game");
 var startButton = document.getElementById("start");
+var normalButton = document.getElementById("Normal");
+var hardButton = document.getElementById("Hard");
+var easyButton = document.getElementById("Easy");
+var modePlaceholder = document.getElementById("modePlaceholder");
+var mode = "";
 var winCases = [[0,1,2] , //Row 1
                 [3,4,5] , //Row 2
                 [6,7,8] , //Row 3
@@ -37,7 +42,6 @@ function startOver()
     player1WINS = 0;
     computerWINS = 0;
     draws = 0;
-    mode = " ";
     $("#X_wins").text(0);
     $("#O_wins").text(0);
     $("#draws").text(0);
@@ -56,6 +60,8 @@ function new_game()
     playerNearWin = false;
     computerNearWin = false;
     freeCells = [0,1,2,3,4,5,6,7,8];
+    corners = [0,2,6,8]; //needed for hard mode
+    edges = [1,3,5,7]; //needed for hard mode
     if(TurnNumber % 2 !== 0)
         {
         current_player = 1;
@@ -76,7 +82,7 @@ function new_game()
     $("#winnerplaceholder").html("Tic Tac Toe");
     $(".btn").addClass("no-hover").addClass("btnNoactive");
     wincase = [];
-    if(current_player === 2)
+    if(!isPlayer1())
     {
         setTimeout(() => {
             nextTurn();
@@ -94,7 +100,7 @@ function playerChoice(element)
         displayChoice(player1 , playerChoiceCell , element);
 }
 
-/* function computerChoiceEasy()
+function computerChoiceEasy()
 {
     userLastChoice = player1[player1.length-1];
     _3possiblemoves = computerPossiblePlacment[userLastChoice];
@@ -118,12 +124,12 @@ function playerChoice(element)
                     computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
                 }
         }
-        computerDisplay();
-} */
+        displayChoice(computer , computerChoiceCell , null);
+} 
 
 function computerChoiceNormal()
 {
-    if(current_player === 2 && freeCells.length === 9)
+    if(!isPlayer1() && freeCells.length === 9)
     {
         computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
         displayChoice(computer , computerChoiceCell , null);
@@ -131,58 +137,56 @@ function computerChoiceNormal()
     }
     computerNearWin = false;
     playerNearWin = false;
-    for (var i = 0; i < nearWinCases.length; i++)
-    {
-        for (var j = 0; j < nearWinCases[i].length; j++)
-        {
-            let missingCell = winCases[i][j];
-            let pair = nearWinCases[i][j];
-            if (computer.includes(pair[0]) && computer.includes(pair[1]))
-            {
-                let playCell = document.getElementById(missingCell);
-                if (playCell.textContent === " ")
-                {
-                    computerNearWin = true;
-                    computerChoiceCell = missingCell;
-                    break;
-                }
-            }
-        }
-        if (computerNearWin)
-        {
-            break;
-        }
-    }
+    computerNearWin = canWin(computer);
     if (!computerNearWin)
     {
-        for (var i = 0; i < nearWinCases.length; i++)
-        {
-            for (var j = 0; j < nearWinCases[i].length; j++)
-            {
-                let missingCell = winCases[i][j];
-                let pair = nearWinCases[i][j];
-                if (player1.includes(pair[0]) && player1.includes(pair[1]))
-                {
-                    let playCell = document.getElementById(missingCell);
-                    if (playCell.textContent === " ")
-                    {
-                        playerNearWin = true;
-                        computerChoiceCell = missingCell;
-                        break;
-                    }
-                }
-            }
-            if (playerNearWin)
-            {
-                break;
-            }
-        }
+        playerNearWin = canWin(player1);
     }
     if (!computerNearWin && !playerNearWin)
     {
         computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
     }
+    displayChoice(computer , computerChoiceCell , null);
+}
 
+function computerChoiceHard()
+{
+    if(freeCells.length === 9)
+    {
+        computerChoiceCell = 4;
+        displayChoice(computer , computerChoiceCell , null);
+        return;
+    }
+    computerNearWin = false;
+    playerNearWin = false;
+    computerNearWin = canWin(computer);
+    if (!computerNearWin)
+    {
+        playerNearWin = canWin(player1);
+    }
+    if (!computerNearWin && !playerNearWin)
+    {
+        if(freeCells.includes(4))
+        {
+            computerChoiceCell = 4;
+        }
+        else if(corners.length !== 0)
+        {
+            do{
+                computerChoiceCell = corners[Math.floor(Math.random() * corners.length)];
+            }while(!freeCells.includes(computerChoiceCell));
+        }
+        else if(edges.length !== 0)
+        {
+            do{
+                computerChoiceCell = edges[Math.floor(Math.random() * edges.length)];
+            }while(!freeCells.includes(computerChoiceCell)); 
+        }
+        else
+        {
+            computerChoiceCell = freeCells[Math.floor(Math.random() * freeCells.length)];
+        }    
+    }
     displayChoice(computer , computerChoiceCell , null);
 }
 
@@ -190,6 +194,14 @@ function displayChoice(player , choiceCell , element)
 {
     player.push(choiceCell);
     freeCells.splice(freeCells.indexOf(choiceCell), 1);
+    if(corners.includes(choiceCell))
+    {
+        corners.splice(corners.indexOf(choiceCell), 1);
+    }
+    else if(edges.includes(choiceCell))
+    {
+        edges.splice(edges.indexOf(choiceCell) , 1);
+    }
     $("#current_player").text(current_player_char).css("color" , current_player_char === "X" ? "red" : "blue");
     if(element === null)
     {
@@ -202,6 +214,28 @@ function displayChoice(player , choiceCell , element)
     current_player = (current_player % 2) + 1;
     number_of_playes += 1;
     current_player_char = chars[current_player - 1]; 
+}
+
+function canWin(playerList)
+{
+    for (var i = 0; i < nearWinCases.length; i++)
+    {
+        for (var j = 0; j < nearWinCases[i].length; j++)
+        {
+            let missingCell = winCases[i][j];
+            let pair = nearWinCases[i][j];
+            if (playerList.includes(pair[0]) && playerList.includes(pair[1]))
+            {
+                let playCell = document.getElementById(missingCell);
+                if (playCell.textContent === " ")
+                {
+                    computerChoiceCell = missingCell;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 function checkWin(player)
@@ -230,19 +264,11 @@ function checkWin(player)
     return false;
 }
 
-function checkWinHelper(playerList)
-{
-    if(number_of_playes >= 5)
-    {
-        win = checkWin(playerList);
-    }
-}
-
 function DisplayWinner(Winner , char)
 {
     wincase.forEach(element => {
     $("#" + element).addClass("wincell");});
-    if(current_player === 2)
+    if(!isPlayer1())
     {
         $("#winnerplaceholder").html("<span style='color: red;'>Player</span> Wins!");
         Winner = ++player1WINS;
@@ -259,34 +285,60 @@ function nextTurn(element)
 {
     if(!win)
     {
-        if(current_player === 1)
+        if(isPlayer1())
         {
             playerChoice(element);
             checkWinHelper(player1);
         }
         else
         {
-            computerChoiceNormal();
+            if(mode === "easy")
+            {
+                computerChoiceEasy();
+            }
+            else if(mode === "normal")
+            {
+                computerChoiceNormal()
+            }
+            else if(mode === "hard")
+            {
+                computerChoiceHard();
+            }
             checkWinHelper(computer);
         }
         if(win)
         {
-            console.log("win");
-            if(current_player === 2)
+            if(!isPlayer1())
             {
-                console.log("player 1");
                 DisplayWinner(player1WINS , chars[current_player - 2]);
             }
-            else if(current_player === 1)
+            else
             {
-                console.log("computer");
                 DisplayWinner(computerWINS , chars[current_player]);
             }
         }
     }
 }
 
-startOver();
+function isPlayer1()
+{
+    if(current_player === 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function checkWinHelper(playerList)
+{
+    if(number_of_playes >= 5)
+    {
+        win = checkWin(playerList);
+    }
+}
 
 $(".cell").click(function() {
     if(started)
@@ -316,3 +368,21 @@ new_gameButton.addEventListener("click", function() {
             new_game();
         }
 });
+
+easyButton.addEventListener("click" , function(){
+    mode = "easy";
+    modePlaceholder.textContent = "Current Mode : " + mode;
+    startOver();
+})
+
+normalButton.addEventListener("click" , function(){
+    mode = "normal";
+    modePlaceholder.textContent = "Current Mode : " + mode;
+    startOver();
+})
+
+hardButton.addEventListener("click" , function(){
+    mode = "hard";
+    modePlaceholder.textContent = "Current Mode : " + mode;
+    startOver();
+})

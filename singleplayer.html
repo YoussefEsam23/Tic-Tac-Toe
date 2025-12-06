@@ -3,11 +3,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="multiplayer.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1 style="font-size: 2rem" id="winnerplaceholder" class="text">Tic Tac Toe</h1>
+        <h2 class="text">Select Mode</h2>
+        <div class="modeContainer">
+            <button class="modeBtn text" id="Easy">Easy</button>
+            <button class="modeBtn text" id="Normal">Normal</button>
+            <button class="modeBtn text" id="Hard">Hard</button>
+        </div>
+        <h2 class="text" id="modePlaceholder"></h2>
         <h2 class="text">current player : <span id="current_player"></span></h2>
         <h3 class="text"><span style="color: red;">Player</span> wins: <span id="X_wins"></span> </h3>
         <h3 class="text"><span style="color: blue;">Computer</span> wins: <span id="O_wins"></span> </h3>

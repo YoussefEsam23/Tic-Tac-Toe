@@ -23,6 +23,11 @@ body{
     width: 25%;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+.modeContainer
+{
+  display: flex;
+  flex-direction: row;
+}
 .gameBoard
 {   display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -46,7 +51,7 @@ body{
     font-size: 2rem;
     transition: transform 0.3s, background-color 0.5s;  
 }
-.btn{
+.btn , .modeBtn{
     padding: 10px 20px;
     margin: 10px;
     width: 70%;
@@ -58,11 +63,14 @@ body{
     cursor: pointer;
     transition: transform 0.5s , background-color 0.5s;
 }
+.modeBtn{
+  width: 70%;
+}
 .btnNoactive{
     background-color: grey;
     cursor: not-allowed;
 }
-.btn:not(.no-hover):hover{
+.btn , .modeBtn:not(.no-hover):hover{
     transform: scale(1.03);
 }
 .cell:not(.no-hover):hover{
