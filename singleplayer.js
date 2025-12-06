@@ -6,7 +6,7 @@ var hardButton = document.getElementById("Hard");
 var easyButton = document.getElementById("Easy");
 var modePlaceholder = document.getElementById("modePlaceholder");
 var mode = "";
-var edgeCornersolution = null;
+var forkSolution = null;
 var winCases = [[0,1,2] , //Row 1
                 [3,4,5] , //Row 2
                 [6,7,8] , //Row 3
@@ -43,7 +43,12 @@ var edgeCornerCases =  [[1,6,0] ,
                         [5,0,2] , 
                         [5,6,8] , 
                         [7,0,6] , 
-                        [7,2,8] , ]
+                        [7,2,8]]
+//needed for hard mode
+var twoedgescases =    [[1,3,0] , 
+                        [3,7,6] , 
+                        [7,5,8] , 
+                        [5,1,2]]
 var chars = ["X" , "O"];
 
 function startOver()
@@ -174,10 +179,28 @@ function computerChoiceHard()
     {
         playerNearWin = canWin(player1);
     }
-    edgeCornersolution = playerHasEdgeAndCorner();
     if (!computerNearWin && !playerNearWin)
     {
-        debugger;
+        forkSolution = playerHasFork(edgeCornerCases);
+        if(forkSolution !== null)
+        {
+            if(freeCells.includes(forkSolution))
+            {
+                computerChoiceCell = forkSolution;
+                displayChoice(computer , computerChoiceCell , null);
+                return;
+            }
+        }
+        forkSolution = playerHasFork(twoedgescases);
+        if(forkSolution !== null)
+        {
+            if(freeCells.includes(forkSolution))
+            {
+                computerChoiceCell = forkSolution;
+                displayChoice(computer , computerChoiceCell , null);
+                return;
+            }
+        }
         if(freeCells.includes(4))
         {
             computerChoiceCell = 4;
@@ -187,14 +210,6 @@ function computerChoiceHard()
             do{
                 computerChoiceCell = edges[Math.floor(Math.random() * edges.length)];
             }while(!freeCells.includes(computerChoiceCell));
-        }
-        else if(edgeCornersolution !== null)
-        {
-            if(freeCells.includes(edgeCornersolution))
-            {
-                computerChoiceCell = edgeCornersolution;
-            }
-            
         }
         else if(corners.length !== 0)
         {
@@ -346,13 +361,13 @@ function nextTurn(element)
     }
 }
 
-function playerHasEdgeAndCorner()
+function playerHasFork(list)
 {
-    for( var i = 0 ; i < edgeCornerCases.length ; i++)
+    for( var i = 0 ; i < list.length ; i++)
     {
-        if(player1.includes(edgeCornerCases[i][0]) && player1.includes(edgeCornerCases[i][1]))
+        if(player1.includes(list[i][0]) && player1.includes(list[i][1]))
         {
-            return edgeCornerCases[i][2];
+            return list[i][2];
         }
     }
     return null;
