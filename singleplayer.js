@@ -170,6 +170,13 @@ function computerChoiceHard()
         {
             computerChoiceCell = 4;
         }
+        else if((player1.includes(nearWinCases[6][1][0]) && player1.includes(nearWinCases[6][1][1])) || (player1.includes(nearWinCases[7][1][0]) && player1.includes(nearWinCases[7][1][1])))
+        {
+            debugger;
+            do{
+                computerChoiceCell = edges[Math.floor(Math.random() * edges.length)];
+            }while(!freeCells.includes(computerChoiceCell));
+        }
         else if(corners.length !== 0)
         {
             do{
