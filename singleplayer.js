@@ -177,6 +177,7 @@ function computerChoiceHard()
     edgeCornersolution = playerHasEdgeAndCorner();
     if (!computerNearWin && !playerNearWin)
     {
+        debugger;
         if(freeCells.includes(4))
         {
             computerChoiceCell = 4;
@@ -353,11 +354,8 @@ function playerHasEdgeAndCorner()
         {
             return edgeCornerCases[i][2];
         }
-        else
-        {
-            return null;
-        }
     }
+    return null;
 }
 
 function isPlayer1()
