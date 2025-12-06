@@ -6,6 +6,7 @@ var hardButton = document.getElementById("Hard");
 var easyButton = document.getElementById("Easy");
 var modePlaceholder = document.getElementById("modePlaceholder");
 var mode = "";
+var edgeCornersolution = null;
 var winCases = [[0,1,2] , //Row 1
                 [3,4,5] , //Row 2
                 [6,7,8] , //Row 3
@@ -34,6 +35,15 @@ var computerPossiblePlacment = [[1,3,4] , // cell 0
                                 [4,6,8] , // cell 7
                                 [4,5,7] , // cell 8
                                 ]
+//needed for hard mode
+var edgeCornerCases =  [[1,6,0] , 
+                        [1,8,2] ,
+                        [3,2,0] , 
+                        [3,8,6] , 
+                        [5,0,2] , 
+                        [5,6,8] , 
+                        [7,0,6] , 
+                        [7,2,8] , ]
 var chars = ["X" , "O"];
 
 function startOver()
@@ -164,6 +174,7 @@ function computerChoiceHard()
     {
         playerNearWin = canWin(player1);
     }
+    edgeCornersolution = playerHasEdgeAndCorner();
     if (!computerNearWin && !playerNearWin)
     {
         if(freeCells.includes(4))
@@ -172,10 +183,17 @@ function computerChoiceHard()
         }
         else if((player1.includes(nearWinCases[6][1][0]) && player1.includes(nearWinCases[6][1][1])) || (player1.includes(nearWinCases[7][1][0]) && player1.includes(nearWinCases[7][1][1])))
         {
-            debugger;
             do{
                 computerChoiceCell = edges[Math.floor(Math.random() * edges.length)];
             }while(!freeCells.includes(computerChoiceCell));
+        }
+        else if(edgeCornersolution !== null)
+        {
+            if(freeCells.includes(edgeCornersolution))
+            {
+                computerChoiceCell = edgeCornersolution;
+            }
+            
         }
         else if(corners.length !== 0)
         {
@@ -323,6 +341,21 @@ function nextTurn(element)
             {
                 DisplayWinner(computerWINS , chars[current_player]);
             }
+        }
+    }
+}
+
+function playerHasEdgeAndCorner()
+{
+    for( var i = 0 ; i < edgeCornerCases.length ; i++)
+    {
+        if(player1.includes(edgeCornerCases[i][0]) && player1.includes(edgeCornerCases[i][1]))
+        {
+            return edgeCornerCases[i][2];
+        }
+        else
+        {
+            return null;
         }
     }
 }
